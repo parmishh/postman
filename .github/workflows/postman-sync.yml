@@ -17,8 +17,8 @@ jobs:
         env:
           FILE_PATH: "Postman Collections/collections.json"
         run: |
-          echo "Wrapping JSON in 'collection' key..."
-          jq '{ collection: . }' "$FILE_PATH" > wrapped_collection.json
+          echo "Wrapping JSON in 'collection' key and removing invalid fields..."
+          jq 'del(.auth) | { collection: . }' "$FILE_PATH" > wrapped_collection.json
           cat wrapped_collection.json  # Debugging: Show final JSON
 
       - name: Send Updated Collection to Postman
