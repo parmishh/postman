@@ -46,10 +46,10 @@ jobs:
         run: |
           newman run "Postman Collections/collections.json" --reporters cli,junit --reporter-junit-export results.xml || true
 
-      - name: Upload Test Results
+      - name: Upload Test Results for Debugging
         uses: actions/upload-artifact@v4
         with:
-          name: postman-test-results
+          name: postman-test-results-xml
           path: results.xml
 
       - name: Publish Test Results in GitHub UI
@@ -58,4 +58,4 @@ jobs:
         with:
           name: Postman API Tests
           path: results.xml
-          reporter: mocha-junit
+          reporter: junit
