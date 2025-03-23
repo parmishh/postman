@@ -1,4 +1,4 @@
-name: Sync Postman Collection
+name: Sync & Test Postman Collection
 
 on:
   push:
@@ -31,3 +31,31 @@ jobs:
           --header "X-API-Key: $POSTMAN_API_KEY" \
           --header "Content-Type: application/json" \
           --data @wrapped_collection.json
+
+  run-api-tests:
+    runs-on: ubuntu-latest
+    needs: update-postman
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman
+
+      - name: Run Postman Tests
+        run: |
+          newman run "Postman Collections/collections.json" --reporters cli,junit --reporter-junit-export results.xml || true
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: postman-test-results
+          path: results.xml
+
+      - name: Publish Test Results in GitHub UI
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Postman API Tests
+          path: results.xml
+          reporter: jest-junit
