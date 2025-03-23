@@ -13,17 +13,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Update Postman Collection
+      - name: Prepare JSON Payload
+        env:
+          FILE_PATH: "Postman Collections/collections.json"
+        run: |
+          echo "Wrapping JSON in 'collection' key..."
+          jq '{ collection: . }' "$FILE_PATH" > wrapped_collection.json
+          cat wrapped_collection.json  # Debugging: Show final JSON
+
+      - name: Send Updated Collection to Postman
         env:
           POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
           COLLECTION_ID: "ed61b0fd-dcfb-4b42-9961-ca7b3bf4ede1"
-          FILE_PATH: "Postman Collections/collections.json"
         run: |
-          echo "Verifying JSON structure..."
-          cat "$FILE_PATH"
-
           echo "Sending updated collection to Postman API..."
           curl --location --request PUT "https://api.getpostman.com/collections/$COLLECTION_ID" \
           --header "X-API-Key: $POSTMAN_API_KEY" \
           --header "Content-Type: application/json" \
-          --data @"$FILE_PATH"
+          --data @wrapped_collection.json
