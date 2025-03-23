@@ -3,9 +3,9 @@ name: Sync Postman Collection
 on:
   push:
     paths:
-      - "Postman Collections/collections.json"  # Matches your repo structure
+      - "Postman Collections/collections.json"
     branches:
-      - main  # Change this if using a different branch
+      - main
 
 jobs:
   update_postman:
@@ -15,14 +15,28 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Verify JSON Before Upload
+        run: |
+          echo "Checking JSON structure..."
+          cat "Postman Collections/collections.json"
+
       - name: Update Postman Collection
         env:
           POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+          COLLECTION_ID: "your_collection_id_here"
+          FILE_PATH: "Postman Collections/collections.json"
         run: |
-          COLLECTION_ID="your_collection_id_here"
-          FILE_PATH="Postman Collections/collections.json"
-
+          echo "Sending updated collection to Postman API..."
           curl --location --request PUT "https://api.getpostman.com/collections/ed61b0fd-dcfb-4b42-9961-ca7b3bf4ede1" \
           --header "X-API-Key: $POSTMAN_API_KEY" \
           --header "Content-Type: application/json" \
           --data @"$FILE_PATH"
+
+      - name: Verify Response
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+          COLLECTION_ID: "your_collection_id_here"
+        run: |
+          echo "Fetching collection from Postman to verify..."
+          curl --location --request GET "https://api.getpostman.com/collections/ed61b0fd-dcfb-4b42-9961-ca7b3bf4ede1" \
+          --header "X-API-Key: $POSTMAN_API_KEY"
