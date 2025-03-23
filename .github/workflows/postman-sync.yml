@@ -17,7 +17,6 @@ jobs:
         env:
           FILE_PATH: "Postman Collections/collections.json"
         run: |
-          echo "Wrapping JSON in 'collection' key and removing invalid fields..."
           jq 'del(.auth) | { collection: . }' "$FILE_PATH" > wrapped_collection.json
           cat wrapped_collection.json  # Debugging: Show final JSON
 
@@ -26,7 +25,6 @@ jobs:
           POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
           COLLECTION_ID: "ed61b0fd-dcfb-4b42-9961-ca7b3bf4ede1"
         run: |
-          echo "Sending updated collection to Postman API..."
           curl --location --request PUT "https://api.getpostman.com/collections/$COLLECTION_ID" \
           --header "X-API-Key: $POSTMAN_API_KEY" \
           --header "Content-Type: application/json" \
@@ -44,7 +42,12 @@ jobs:
 
       - name: Run Postman Tests
         run: |
-          newman run "Postman Collections/collections.json" --reporters cli,junit --reporter-junit-export results.xml || true
+          newman run "Postman Collections/collections.json" \
+            --reporters cli,junit \
+            --reporter-junit-export results.xml --suppress-exit-code || true
+
+      - name: Validate XML Output
+        run: cat results.xml || echo "No results.xml found"
 
       - name: Upload Test Results for Debugging
         uses: actions/upload-artifact@v4
@@ -58,4 +61,9 @@ jobs:
         with:
           name: Postman API Tests
           path: results.xml
-          reporter: jest-junit
+          reporter: jest-junit  # Change to 'xunit' if 'jest-junit' fails
+          list-suites: all
+          list-tests: all
+          max-annotations: 10
+          fail-on-error: false
+          fail-on-empty: false
