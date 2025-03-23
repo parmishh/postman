@@ -18,7 +18,6 @@ jobs:
           FILE_PATH: "Postman Collections/collections.json"
         run: |
           jq 'del(.auth) | { collection: . }' "$FILE_PATH" > wrapped_collection.json
-          cat wrapped_collection.json  # Debugging: Show final JSON
 
       - name: Send Updated Collection to Postman
         env:
@@ -46,24 +45,8 @@ jobs:
             --reporters cli,junit \
             --reporter-junit-export results.xml --suppress-exit-code || true
 
-      - name: Validate XML Output
-        run: cat results.xml || echo "No results.xml found"
-
-      - name: Upload Test Results for Debugging
+      - name: Upload Test Results
         uses: actions/upload-artifact@v4
         with:
           name: postman-test-results-xml
           path: results.xml
-
-      - name: Publish Test Results in GitHub UI
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Postman API Tests
-          path: results.xml
-          reporter: jest-junit  # Change to 'xunit' if 'jest-junit' fails
-          list-suites: all
-          list-tests: all
-          max-annotations: 10
-          fail-on-error: false
-          fail-on-empty: false
