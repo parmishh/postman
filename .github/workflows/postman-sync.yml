@@ -58,4 +58,4 @@ jobs:
         with:
           name: Postman API Tests
           path: results.xml
-          reporter: jest-junit
+          reporter: junit
