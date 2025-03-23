@@ -1,0 +1,1233 @@
+{
+	"info": {
+		"_postman_id": "ed61b0fd-dcfb-4b42-9961-ca7b3bf4ede1",
+		"name": "Gemini API [Use Cases] Copy",
+		"description": "This collection highlights some practical workflows using Gemini APIs, showcasing:\n\n- Song commercial generation for a company given its name.\n    \n- News report generation by converting an old newspaper image into a virtual journalist report.\n    \n- Interactive US history quiz creation from a textbook, complete with a UI built with Postman Visualization.\n    \n\n---\n\n# Getting Started\n\n#### Step 1: Fork the Collection\n\nFork the collection manually _or_ use the the Run in Postman button[<img src=\"https://run.pstmn.io/button.svg\" alt=\"Run In Postman\">](https://app.getpostman.com/run-collection/37708857-7186b24f-c9e0-44f1-a101-99d34a578602?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D37708857-7186b24f-c9e0-44f1-a101-99d34a578602%26entityType%3Dcollection%26workspaceId%3D657d27fa-301f-4268-be9d-4e35dfb35d70)\n\n#### Step 2: Getting your API key\n\nTo get started working with Gemini APIs, you must first be authorized to access them. The easiest way to authenticate to the Gemini API is to configure an API key. If you need stricter access controls, you can [use OAuth](https://ai.google.dev/gemini-api/docs/oauth) instead.\n\n###### Getting your API key\n\nFirst, navigate to your [API Key page](https://aistudio.google.com/app/apikey) on your Google AI studio account. Click the Create API key button and select a project when prompted. Copy and keey the generated API key safe.\n\n<img src=\"https://content.pstmn.io/cc952b94-641f-40eb-a3af-57e737eab8ab/aW1hZ2UucG5n\" width=\"618\" height=\"405\">\n\n#### Step 3: Configure your API key in Postman using Vaults\n\nPostman provides a Vault for storing sensitive data locally. Data stored in this vault is not synced with Postman Cloud and can only be accessed in your local Postman Instance.\n\n> We recommend using [Postman Vault](https://learning.postman.com/docs/sending-requests/postman-vault/postman-vault-secrets/) to store sensitive data. \n  \n\nStore your Secret Key in a Postman Vault. A reference to a secret `{{vault:`apiKey`}}` has been added to the [collection authorization tab](https://www.postman.com/devrel/openai/collection/k25n3c8/chatgpt-api?tab=authorization) as a Bearer token. You can use this variable name in your vault or update the variable in the authorization tab accordingly.\n\n---\n\n---\n\n# Ask for help\n\nWe want you to get the best support possible when working with this workspace. If you're stuck and need help with specific Gemini issues, we recommend that you explore the following channels.\n\n- [Gemini Developer Forum](https://discuss.ai.google.dev/c/gemini-api/4)\n    \n\nFor Postman specific questions or feedback about this workspace:\n\n- [Postman's Community Forum](https://community.postman.com/t/ai-provider-workspaces-and-collections/74143) - Provide feedback and ask questions about this workspace, ask general Postman questions, understand how to use a feature, how to build a workflow, etc.\n    \n\nFor Postman specific issues:\n\n- [Postman Github Issues](https://github.com/postmanlabs/postman-app-support) - Submit feature requests, bug reports, etc here",
+		"schema": "https://schema.postman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "News Reporting Video",
+			"item": [
+				{
+					"name": "upload request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d0c951f5-7cfc-487b-b893-a05994334759",
+								"exec": [
+									"var uploadUrl = pm.response.headers.get('x-goog-upload-url');",
+									"pm.collectionVariables.set(\"UPLOAD_URL\", uploadUrl);",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "922b42b4-b90f-4773-acf4-a99cc456851c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Goog-Upload-Protocol",
+								"value": "resumable"
+							},
+							{
+								"key": "X-Goog-Upload-Command",
+								"value": "start"
+							},
+							{
+								"key": "X-Goog-Upload-Header-Content-Length",
+								"value": "$NUM_BYTES",
+								"disabled": true
+							},
+							{
+								"key": "X-Goog-Upload-Header-Content-Type",
+								"value": "image/jpeg"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"file\": {\n        \"display_name\": \"newspaper.jpg\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/upload/{{version}}/files"
+					},
+					"response": [
+						{
+							"id": "c8dd59e2-452f-4908-8d9b-bdfec0529522",
+							"name": "resumable upload request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Goog-Upload-Protocol",
+										"value": "resumable"
+									},
+									{
+										"key": "X-Goog-Upload-Command",
+										"value": "start"
+									},
+									{
+										"key": "X-Goog-Upload-Header-Content-Length",
+										"value": "$NUM_BYTES",
+										"disabled": true
+									},
+									{
+										"key": "X-Goog-Upload-Header-Content-Type",
+										"value": "image/jpeg"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"file\": {\n        \"display_name\": \"newspaper.jpg\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/upload/{{version}}/files"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "X-GUploader-UploadID",
+									"value": "AHmUCY2sLhVFJI1qbG0_hy34xzjDfMYWtLVEbKhh-3QJxHSoqewwTCVHbs8MLWGu5QGwxEco7Dk9ES6AJOgkvQd4xYitknfJHgVyKEEUPSJhbn9U",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Status",
+									"value": "active",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-URL",
+									"value": "https://generativelanguage.googleapis.com/upload/v1beta/files?key={{vault:google-api-key}}&upload_id=AHmUCY2sLhVFJI1qbG0_hy34xzjDfMYWtLVEbKhh-3QJxHSoqewwTCVHbs8MLWGu5QGwxEco7Dk9ES6AJOgkvQd4xYitknfJHgVyKEEUPSJhbn9U&upload_protocol=resumable",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Control-URL",
+									"value": "https://generativelanguage.googleapis.com/upload/v1beta/files?key={{vault:google-api-key}}&upload_id=AHmUCY2sLhVFJI1qbG0_hy34xzjDfMYWtLVEbKhh-3QJxHSoqewwTCVHbs8MLWGu5QGwxEco7Dk9ES6AJOgkvQd4xYitknfJHgVyKEEUPSJhbn9U&upload_protocol=resumable",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Chunk-Granularity",
+									"value": "8388608",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-x-google-esf-cloud-client-params",
+									"value": "backend_service_name: \"generativelanguage.googleapis.com\" backend_fully_qualified_method: \"google.ai.generativelanguage.v1beta.FileService.CreateFile\"",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-X-Google-Session-Info",
+									"value": "GgQYECgLIAE6IxIhZ2VuZXJhdGl2ZWxhbmd1YWdlLmdvb2dsZWFwaXMuY29t",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-X-Google-Backends",
+									"value": "unix:/tmp/esfbackend.1728594912.217861.843165",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-Content-Type",
+									"value": "application/json; charset=UTF-8",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-X-Google-Security-Signals",
+									"value": "FRAMEWORK=ONE_PLATFORM,ENV=borg,ENV_DEBUG=borg_user:genai-api;borg_job:prod.genai-api",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-Vary",
+									"value": "Origin",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-Vary",
+									"value": "X-Origin",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-Vary",
+									"value": "Referer",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-X-Google-GFE-Backend-Request-Cost",
+									"value": "4.5066",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "0",
+									"enabled": true
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 15 Oct 2024 18:51:49 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Server",
+									"value": "UploadServer",
+									"enabled": true
+								},
+								{
+									"key": "Alt-Svc",
+									"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "upload newspaper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "82ab212f-2840-40c0-ac91-08ff1be5e307",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"FILE_URI\", jsonData.file.uri);",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "42feb96b-578b-4cd2-802b-650f2216a792",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Length",
+								"value": "$NUM_BYTES",
+								"disabled": true
+							},
+							{
+								"key": "X-Goog-Upload-Offset",
+								"value": "0"
+							},
+							{
+								"key": "X-Goog-Upload-Command",
+								"value": "upload, finalize"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "K46B02PWZ/newspaper_2005.png"
+							}
+						},
+						"url": "{{UPLOAD_URL}}"
+					},
+					"response": [
+						{
+							"id": "4401f351-efb5-4708-a390-c9d16dce6d55",
+							"name": "upload actual file",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Length",
+										"value": "$NUM_BYTES",
+										"disabled": true
+									},
+									{
+										"key": "X-Goog-Upload-Offset",
+										"value": "0"
+									},
+									{
+										"key": "X-Goog-Upload-Command",
+										"value": "upload, finalize"
+									}
+								],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": "K46B02PWZ/newspaper_2005.png"
+									}
+								},
+								"url": "{{UPLOAD_URL}}"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Goog-Upload-Status",
+									"value": "final",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Origin",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "X-Origin",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Referer",
+									"enabled": true
+								},
+								{
+									"key": "X-GUploader-UploadID",
+									"value": "AHmUCY2sLhVFJI1qbG0_hy34xzjDfMYWtLVEbKhh-3QJxHSoqewwTCVHbs8MLWGu5QGwxEco7Dk9ES6AJOgkvQd4xYitknfJHgVyKEEUPSJhbn9U",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "516",
+									"enabled": true
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 15 Oct 2024 18:59:37 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Server",
+									"value": "UploadServer",
+									"enabled": true
+								},
+								{
+									"key": "Alt-Svc",
+									"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n    \"file\": {\n        \"name\": \"files/blqfaptko29v\",\n        \"displayName\": \"newspaper.jpg\",\n        \"mimeType\": \"image/jpeg\",\n        \"sizeBytes\": \"1549670\",\n        \"createTime\": \"2024-10-15T18:59:37.018733Z\",\n        \"updateTime\": \"2024-10-15T18:59:37.018733Z\",\n        \"expirationTime\": \"2024-10-17T18:59:37.002920714Z\",\n        \"sha256Hash\": \"YjhjYjA5NTJlZDA2YmQ4MDY3ZDgyZDIwYjc2MWU0ZjU4NGI4ZmYzZjQxMDc0ZTQwZmYxODVhNmIyZWE2YTZhYQ==\",\n        \"uri\": \"https://generativelanguage.googleapis.com/v1beta/files/blqfaptko29v\",\n        \"state\": \"ACTIVE\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "generate newscasting script",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "42813c64-ed4a-48e9-bc9a-3e29822d44a9",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verify the presence and format of 'usageMetadata' object and its properties\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.usageMetadata).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.usageMetadata.promptTokenCount).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.usageMetadata.candidatesTokenCount).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.usageMetadata.totalTokenCount).to.exist.and.to.be.a('number');",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "9391722c-e8bc-4984-b860-cd0e897e9d2f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contents\": [\n        {\n            \"parts\": [\n                {\n                    \"text\": \"You are a Journalist. You are presenting a news at the new york times square on camera based on information you've gotten from the newspaper shared with you. Write a script for your newscasting.\"\n                },\n                {\n                    \"file_data\": {\n                        \"mime_type\": \"image/jpeg\",\n                        \"file_uri\": \"{{FILE_URI}}\"\n                    }\n                }\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/{{version}}/models/{{model}}:generateContent"
+					},
+					"response": [
+						{
+							"id": "cbc73ad4-4072-425a-b5fd-b0240379a28e",
+							"name": "generate content from uploaded file",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"contents\": [\n        {\n            \"parts\": [\n                {\n                    \"text\": \"You are a Journalist. You are presenting a news at the new york times square on camera based on information you've gotten from the newspaper shared with you. Write a script for your newscasting\"\n                },\n                {\n                    \"file_data\": {\n                        \"mime_type\": \"image/jpeg\",\n                        \"file_uri\": \"{{FILE_URI}}\"\n                    }\n                }\n            ]\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/{{version}}/models/{{model}}:generateContent"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Origin",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "X-Origin",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Referer",
+									"enabled": true
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"enabled": true
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 15 Oct 2024 19:09:17 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Server",
+									"value": "scaffolding on HTTPServer2",
+									"enabled": true
+								},
+								{
+									"key": "Cache-Control",
+									"value": "private",
+									"enabled": true
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0",
+									"enabled": true
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"enabled": true
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"enabled": true
+								},
+								{
+									"key": "Server-Timing",
+									"value": "gfet4t7; dur=3706",
+									"enabled": true
+								},
+								{
+									"key": "Alt-Svc",
+									"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+									"enabled": true
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n    \"candidates\": [\n        {\n            \"content\": {\n                \"parts\": [\n                    {\n                        \"text\": \"**(Scene: Times Square, New York. A news van is parked in front of a bustling crowd. A journalist, ANNA, stands in front of the van, microphone in hand.)**\\n\\n**ANNA:** Good evening, New Yorkers, and welcome to the news from Times Square.  I'm Anna Rodriguez.  Today's headlines focus on the VMI football program, and the dedication of a new ceremony marking the future of the sport.\\n\\n**(Visuals: Quick cuts of the newspaper article, focusing on the ceremony and renovation images.)**\\n\\n**ANNA:** This Friday's edition of The Cadet newspaper details the grand ceremony held at VMI's Memorial Field.  The ceremony, held on Saturday, honored the legacy of Colonel Hammond, a VMI alumnus, and celebrated the commencement of extensive renovations to the football stadium.  The improvements include a new game-day locker room, seating improvements, and an upgraded playing field.\\n\\n**(Visuals: Close-up of the newspaper article's text highlighting the specifics.)**\\n\\n**ANNA:**  According to the article, the renovation project, a comprehensive undertaking, aims to enhance the VMI experience,  providing a more modernized and comfortable environment for players and spectators. This is a substantial investment to ensure the legacy of VMI football continues for years to come.\\n\\n**(Visuals: Short clips of the crowd, possibly images of the renovation work in progress.)**\\n\\n**ANNA:** The Cadet also reports that the ceremony was attended by a significant number of alumni, faculty, and community members.  The article highlights the participation of General J.H.B. Peay III and Mr. Wesley Foster, Jr. in the opening ceremonies. The significance of this ceremony stems from its symbolism, marking a transition in the tradition of the sport and a dedication to its future.\\n\\n**(Visuals: Quick cuts of newspaper headlines and photo illustrations.)**\\n\\n**ANNA:**  The newspaper also provides insight into the tough loss suffered by the VMI Keydets football team, as well as the impressive performance of the team despite the defeat. A detailed analysis of the game, including key plays and player highlights is included. The article emphasizes the dedication and resilience of the VMI players and coaches.\\n\\n**(Visuals: A montage of images related to the VMI team.)**\\n\\n**ANNA:**  Furthermore, the renovation project is expected to be completed by October,  and the new facilities are slated to host the first games of the new season.  The newspaper also reports potential delays in the construction phases,  which could alter the previously slated timeline. We'll continue to follow this story and update you as more information becomes available.\\n\\n**(Visuals: Return to the news van and Anna.)**\\n\\n**ANNA:** That's all the time we have for today's news from Times Square.  Stay tuned to The Cadet and The Times for more updates on VMI football and the ongoing renovations. Good evening.\\n\"\n                    }\n                ],\n                \"role\": \"model\"\n            },\n            \"finishReason\": \"STOP\",\n            \"index\": 0,\n            \"safetyRatings\": [\n                {\n                    \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\",\n                    \"probability\": \"NEGLIGIBLE\"\n                },\n                {\n                    \"category\": \"HARM_CATEGORY_HATE_SPEECH\",\n                    \"probability\": \"NEGLIGIBLE\"\n                },\n                {\n                    \"category\": \"HARM_CATEGORY_HARASSMENT\",\n                    \"probability\": \"NEGLIGIBLE\"\n                },\n                {\n                    \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\",\n                    \"probability\": \"NEGLIGIBLE\"\n                }\n            ]\n        }\n    ],\n    \"usageMetadata\": {\n        \"promptTokenCount\": 297,\n        \"candidatesTokenCount\": 604,\n        \"totalTokenCount\": 901\n    }\n}"
+						}
+					]
+				}
+			],
+			"id": "908d5bc4-3417-4ac5-a46b-de50cd44fca6",
+			"description": "This Use Case takes an old newspaper and generates a news casting audio from this newspaper.\n\n- [Upload Request](https://ai-on-postman.postman.co/workspace/Google-Gemini-APIs~657d27fa-301f-4268-be9d-4e35dfb35d70/request/37708857-2a7ae882-de70-4072-88ca-5172d2d7f1b1?action=share&source=copy-link&creator=37708857&ctx=documentation): Request an upload url for the old newspaper\n    \n- [Upload newspaper](https://ai-on-postman.postman.co/workspace/Google-Gemini-APIs~657d27fa-301f-4268-be9d-4e35dfb35d70/request/37708857-24349915-2051-4441-8c5b-618bf23dad83?action=share&source=copy-link&creator=37708857&ctx=documentation): Upload the old newspaper\n    \n- [Generate Script](https://ai-on-postman.postman.co/workspace/Google-Gemini-APIs~657d27fa-301f-4268-be9d-4e35dfb35d70/request/37708857-a1ff1ab6-350a-4134-b888-6921403eef06?action=share&source=copy-link&creator=37708857&ctx=documentation): Generate a transcript for the newscaster\n    \n- Generate News Casting Audio:\n    \n- Generate A Newscasting video:\n    \n- Merge the newscasting video and audio:"
+		},
+		{
+			"name": "Generate Quiz From Textbook",
+			"item": [
+				{
+					"name": "upload request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d0c951f5-7cfc-487b-b893-a05994334759",
+								"exec": [
+									"var uploadUrl = pm.response.headers.get('x-goog-upload-url');",
+									"pm.collectionVariables.set(\"UPLOAD_URL\", uploadUrl);",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "d219789c-5a49-42cf-ade7-5cee04a28228",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Goog-Upload-Protocol",
+								"value": "resumable"
+							},
+							{
+								"key": "X-Goog-Upload-Command",
+								"value": "start"
+							},
+							{
+								"key": "X-Goog-Upload-Header-Content-Length",
+								"value": "$NUM_BYTES",
+								"disabled": true
+							},
+							{
+								"key": "X-Goog-Upload-Header-Content-Type",
+								"value": "application/pdf"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"file\": {\n        \"display_name\": \"us_history_book.pdf\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/upload/{{version}}/files"
+					},
+					"response": [
+						{
+							"id": "85883535-bbdf-4e93-8d2f-7fb5db96eca5",
+							"name": "resumable upload request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Goog-Upload-Protocol",
+										"value": "resumable"
+									},
+									{
+										"key": "X-Goog-Upload-Command",
+										"value": "start"
+									},
+									{
+										"key": "X-Goog-Upload-Header-Content-Length",
+										"value": "$NUM_BYTES",
+										"disabled": true
+									},
+									{
+										"key": "X-Goog-Upload-Header-Content-Type",
+										"value": "image/jpg"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"file\": {\n        \"display_name\": \"jetpack.jpg\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/upload/{{version}}/files"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8",
+									"enabled": true
+								},
+								{
+									"key": "X-GUploader-UploadID",
+									"value": "AD-8ljvHfdpLs5vikUSYyLKPrr0ecC2l72NPo4qMIIXaTX2gnO7qy6q2AOD5RbdZ7CuJBgLat2WijLG1y94ost6PUT0dnB-gnoAaYWo-kau_MuU2",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Status",
+									"value": "active",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-URL",
+									"value": "https://generativelanguage.googleapis.com/upload/v1beta/files?key={{vault:google-api-key}}&upload_id=AD-8ljvHfdpLs5vikUSYyLKPrr0ecC2l72NPo4qMIIXaTX2gnO7qy6q2AOD5RbdZ7CuJBgLat2WijLG1y94ost6PUT0dnB-gnoAaYWo-kau_MuU2&upload_protocol=resumable",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Control-URL",
+									"value": "https://generativelanguage.googleapis.com/upload/v1beta/files?key={{vault:google-api-key}}&upload_id=AD-8ljvHfdpLs5vikUSYyLKPrr0ecC2l72NPo4qMIIXaTX2gnO7qy6q2AOD5RbdZ7CuJBgLat2WijLG1y94ost6PUT0dnB-gnoAaYWo-kau_MuU2&upload_protocol=resumable",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Chunk-Granularity",
+									"value": "8388608",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-x-google-esf-cloud-client-params",
+									"value": "backend_service_name: \"generativelanguage.googleapis.com\" backend_fully_qualified_method: \"google.ai.generativelanguage.v1beta.FileService.CreateFile\"",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-X-Google-Session-Info",
+									"value": "GgQYECgLIAE6IxIhZ2VuZXJhdGl2ZWxhbmd1YWdlLmdvb2dsZWFwaXMuY29t",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-X-Google-Backends",
+									"value": "unix:/tmp/esfbackend.1725004065.195674.1756757",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-Content-Type",
+									"value": "application/json; charset=UTF-8",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-X-Google-Security-Signals",
+									"value": "FRAMEWORK=ONE_PLATFORM,ENV=borg,ENV_DEBUG=borg_user:genai-api;borg_job:prod.genai-api",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-Vary",
+									"value": "Origin",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-Vary",
+									"value": "X-Origin",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-Vary",
+									"value": "Referer",
+									"enabled": true
+								},
+								{
+									"key": "X-Goog-Upload-Header-X-Google-GFE-Backend-Request-Cost",
+									"value": "0.7712",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "0",
+									"enabled": true
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 30 Aug 2024 23:15:46 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Server",
+									"value": "UploadServer",
+									"enabled": true
+								},
+								{
+									"key": "Alt-Svc",
+									"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "upload text book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "82ab212f-2840-40c0-ac91-08ff1be5e307",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"FILE_URI\", jsonData.file.uri);",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "c1425672-10b3-4de8-92b3-d67057af3c16",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Length",
+								"value": "$NUM_BYTES",
+								"disabled": true
+							},
+							{
+								"key": "X-Goog-Upload-Offset",
+								"value": "0"
+							},
+							{
+								"key": "X-Goog-Upload-Command",
+								"value": "upload, finalize"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "M_vi8bwV4/us-history.pdf"
+							}
+						},
+						"url": "{{UPLOAD_URL}}"
+					},
+					"response": [
+						{
+							"id": "06ddb1b9-6dfb-4f3b-a7c8-3b0e13bf6fdd",
+							"name": "upload actual file",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Length",
+										"value": "$NUM_BYTES",
+										"disabled": true
+									},
+									{
+										"key": "X-Goog-Upload-Offset",
+										"value": "0"
+									},
+									{
+										"key": "X-Goog-Upload-Command",
+										"value": "upload, finalize"
+									}
+								],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": "M_vi8bwV4/us-history.pdf"
+									}
+								},
+								"url": "{{UPLOAD_URL}}"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Goog-Upload-Status",
+									"value": "final",
+									"enabled": true
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Origin",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "X-Origin",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Referer",
+									"enabled": true
+								},
+								{
+									"key": "X-GUploader-UploadID",
+									"value": "AHmUCY3f8U_P_7Ts7ER4ykJdFYwYDKuePhCoqjiCJXwu8803P6EacwRLSyWkI89qHIz0LCO_5Q2SYbm3NlLRUIQHo8B3TK-Bo6VWD5hQJ82Md71u",
+									"enabled": true
+								},
+								{
+									"key": "Content-Length",
+									"value": "528",
+									"enabled": true
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 16 Oct 2024 15:03:51 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Server",
+									"value": "UploadServer",
+									"enabled": true
+								},
+								{
+									"key": "Alt-Svc",
+									"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n    \"file\": {\n        \"name\": \"files/ya6h3diem7wk\",\n        \"displayName\": \"us_history_book.pdf\",\n        \"mimeType\": \"application/pdf\",\n        \"sizeBytes\": \"30094663\",\n        \"createTime\": \"2024-10-16T15:03:51.501266Z\",\n        \"updateTime\": \"2024-10-16T15:03:51.501266Z\",\n        \"expirationTime\": \"2024-10-18T15:03:51.489536903Z\",\n        \"sha256Hash\": \"ZDcyNDExZmI1YjMzY2I2MjEzNzRjYjY0Zjc2N2UxMTgyZjgxYzI4ZThkNDdlN2RmMjM3YTM0ZDI0NDVlOTgxMA==\",\n        \"uri\": \"https://generativelanguage.googleapis.com/v1beta/files/ya6h3diem7wk\",\n        \"state\": \"ACTIVE\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "generate quiz from textbook",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "42813c64-ed4a-48e9-bc9a-3e29822d44a9",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verify the presence and format of 'usageMetadata' object and its properties\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.usageMetadata).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.usageMetadata.promptTokenCount).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.usageMetadata.candidatesTokenCount).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.usageMetadata.totalTokenCount).to.exist.and.to.be.a('number');",
+									"});",
+									"",
+									"const responseData = pm.response.json();",
+									"",
+									"const quiz = JSON.parse(responseData.candidates[0].content.parts[0].text);",
+									"",
+									"pm.test(\"Get a valid quiz JSON\", function () {",
+									"    pm.expect(typeof quiz).to.eql(\"object\");",
+									"});",
+									"",
+									"console.log(\"Quiz is => \", quiz);",
+									"",
+									"// Initialize variables",
+									"let quizHTML = `",
+									"    <style>",
+									"        body {",
+									"            font-family: Arial, sans-serif;",
+									"            background-color: #f4f4f4;",
+									"            color: #333;",
+									"        }",
+									"        h2 {",
+									"            text-align: center;",
+									"            color: #4CAF50;",
+									"        }",
+									"        form {",
+									"            background-color: #fff;",
+									"            padding: 20px;",
+									"            margin: 0 auto;",
+									"            width: 70%;",
+									"            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);",
+									"            border-radius: 8px;",
+									"        }",
+									"        div {",
+									"            margin-bottom: 15px;",
+									"        }",
+									"        p {",
+									"            font-size: 18px;",
+									"            font-weight: bold;",
+									"        }",
+									"        label {",
+									"            display: block;",
+									"            margin-bottom: 10px;",
+									"            font-size: 16px;",
+									"        }",
+									"        input[type=\"radio\"] {",
+									"            margin-right: 10px;",
+									"        }",
+									"        button {",
+									"            background-color: #4CAF50;",
+									"            color: white;",
+									"            padding: 10px 20px;",
+									"            border: none;",
+									"            border-radius: 5px;",
+									"            cursor: pointer;",
+									"            font-size: 16px;",
+									"            transition: background-color 0.3s ease;",
+									"        }",
+									"        button:hover {",
+									"            background-color: #45a049;",
+									"        }",
+									"        #result {",
+									"            margin-top: 20px;",
+									"            background-color: #f9f9f9;",
+									"            padding: 15px;",
+									"            border-radius: 8px;",
+									"            text-align: center;",
+									"            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);",
+									"        }",
+									"        #result p {",
+									"            font-size: 20px;",
+									"            font-weight: bold;",
+									"        }",
+									"    </style>",
+									"",
+									"    <h2>Quiz ✍🏻</h2><form id=\"quizForm\">",
+									"`;",
+									"let questions = quiz; // Assuming response contains the array of questions and answers",
+									"let score = 0;",
+									"let totalQuestions = questions.length;",
+									"",
+									"// Build the quiz form",
+									"questions.forEach((questionObj, index) => {",
+									"    quizHTML += `",
+									"        <div style=\"margin-bottom: 20px;\">",
+									"            <p><h5>Question ${index + 1}: ${questionObj.question}</h5></p>",
+									"            <label>",
+									"                <input type=\"radio\" name=\"q${index}\" value=\"A\" required> ",
+									"                A. ${questionObj.option_a}",
+									"            </label><br/>",
+									"            <label>",
+									"                <input type=\"radio\" name=\"q${index}\" value=\"B\" required> ",
+									"                B. ${questionObj.option_b}",
+									"            </label><br/>",
+									"            <label>",
+									"                <input type=\"radio\" name=\"q${index}\" value=\"C\" required> ",
+									"                C. ${questionObj.option_c}",
+									"            </label><br/>",
+									"            <label>",
+									"                <input type=\"radio\" name=\"q${index}\" value=\"D\" required> ",
+									"                D. ${questionObj.option_d}",
+									"            </label>",
+									"        </div>",
+									"    `;",
+									"});",
+									"",
+									"quizHTML += `<button type=\"submit\">Submit Quiz</button></form>`;",
+									"",
+									"// Add a result display section",
+									"quizHTML += `<div id=\"result\" style=\"margin-top: 20px;\"></div>`;",
+									"",
+									"// Set the visualization",
+									"pm.visualizer.set(quizHTML);",
+									"",
+									"pm.visualizer.set(`",
+									"    ${quizHTML}",
+									"",
+									"    <script>",
+									"        document.getElementById('quizForm').addEventListener('submit', function(event) {",
+									"            event.preventDefault(); // Prevent form refresh",
+									"            let score = 0;",
+									"            let totalQuestions = ${questions.length};",
+									"            let questions = ${JSON.stringify(questions)};",
+									"            let resultHTML = \"<h3>Quiz Results</h3>\";",
+									"",
+									"            questions.forEach((questionObj, index) => {",
+									"                let selectedAnswer = document.querySelector(\\`input[name=\"q\\${index}\"]:checked\\`).value;",
+									"                if (selectedAnswer === questionObj.answer) {",
+									"                    score++;",
+									"                }",
+									"            });",
+									"",
+									"            let percentageScore = (score / totalQuestions) * 100;",
+									"            resultHTML += \"<p>Your Score: \" + score + \"/\" + totalQuestions + \"</p>\";",
+									"            resultHTML += \"<p>Percentage: \" + percentageScore.toFixed(2) + \"%</p>\";",
+									"            ",
+									"            // Display result",
+									"            document.getElementById('result').innerHTML = resultHTML;",
+									"        });",
+									"    </script>",
+									"`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "6d987cfc-afa7-4a77-a18f-3dc3110b7fc2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contents\": [\n        {\n            \"parts\": [\n                {\n                    \"text\": \"Generate a seven question quiz for a student preparing for a test. Include the correct answers in your response\"\n                },\n                {\n                    \"file_data\": {\n                        \"mime_type\": \"application/pdf\",\n                        \"file_uri\": \"{{FILE_URI}}\"\n                    }\n                }\n            ]\n        }\n    ],\n    \"generationConfig\": {\n        \"response_mime_type\": \"application/json\",\n        \"response_schema\": {\n            \"type\": \"ARRAY\",\n            \"items\": {\n                \"type\": \"OBJECT\",\n                \"properties\": {\n                    \"question\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"option_a\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"option_b\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"option_c\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"option_d\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"answer\": {\n                        \"type\": \"string\",\n                        \"enum\": [\"A\", \"B\", \"C\", \"D\"],\n                        \"description\": \"The correct asnwer to the question\"\n                    }\n                }\n            }\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/{{version}}/models/gemini-1.5-pro-latest:generateContent"
+					},
+					"response": [
+						{
+							"id": "7b9863ad-3fb3-42ab-8874-94d362c4528e",
+							"name": "generate content from uploaded file",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"contents\": [\n        {\n            \"parts\": [\n                {\n                    \"text\": \"Generate a 50 question quiz for a student preparing for a test. Include the correct answers in your response\"\n                },\n                {\n                    \"file_data\": {\n                        \"mime_type\": \"application/pdf\",\n                        \"file_uri\": \"{{FILE_URI}}\"\n                    }\n                }\n            ]\n        }\n    ],\n    \"generationConfig\": {\n        \"response_mime_type\": \"application/json\",\n        \"response_schema\": {\n            \"type\": \"ARRAY\",\n            \"items\": {\n                \"type\": \"OBJECT\",\n                \"properties\": {\n                    \"question\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"option_a\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"option_b\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"option_c\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"option_d\": {\n                        \"type\": \"STRING\"\n                    },\n                    \"answer\": {\n                        \"type\": \"string\",\n                        \"enum\": [\"A\", \"B\", \"C\", \"D\"],\n                        \"description\": \"The correct asnwer to the question\"\n                    }\n                }\n            }\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/{{version}}/models/gemini-1.5-pro-latest:generateContent"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Origin",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "X-Origin",
+									"enabled": true
+								},
+								{
+									"key": "Vary",
+									"value": "Referer",
+									"enabled": true
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"enabled": true
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 16 Oct 2024 15:46:26 GMT",
+									"enabled": true
+								},
+								{
+									"key": "Server",
+									"value": "scaffolding on HTTPServer2",
+									"enabled": true
+								},
+								{
+									"key": "Cache-Control",
+									"value": "private",
+									"enabled": true
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0",
+									"enabled": true
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN",
+									"enabled": true
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"enabled": true
+								},
+								{
+									"key": "Server-Timing",
+									"value": "gfet4t7; dur=145007",
+									"enabled": true
+								},
+								{
+									"key": "Alt-Svc",
+									"value": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+									"enabled": true
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"enabled": true
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n    \"candidates\": [\n        {\n            \"content\": {\n                \"parts\": [\n                    {\n                        \"text\": \"[{\\\"answer\\\": \\\"C\\\", \\\"option_a\\\": \\\"Christopher Columbus\\\", \\\"option_b\\\": \\\"Hernan Cortes\\\", \\\"option_c\\\": \\\"Francisco Pizarro\\\", \\\"option_d\\\": \\\"Juan Ponce de Leon\\\", \\\"question\\\": \\\"Which Spanish explorer led the conquest of the Inca Empire in Peru in the 16th century?\\\"}, {\\\"answer\\\": \\\"B\\\", \\\"option_a\\\": \\\"They were built with large stones held together with mortar.\\\", \\\"option_b\\\": \\\"They were constructed using advanced engineering techniques for the time, including a system of ramps and rollers to move the massive stones.\\\", \\\"option_c\\\": \\\"They were built entirely by hand, without the use of draft animals or wheeled vehicles.\\\", \\\"option_d\\\": \\\"They were relatively small and simple structures compared to the pyramids of Egypt.\\\", \\\"question\\\": \\\"How were the massive stone structures of the Inca city of Machu Picchu constructed?\\\"}, {\\\"answer\\\": \\\"D\\\", \\\"option_a\\\": \\\"the discovery of large deposits of gold in the Appalachian Mountains\\\", \\\"option_b\\\": \\\"the spread of epidemic diseases among Native American populations\\\", \\\"option_c\\\": \\\"the rise of powerful Native American empires that resisted European encroachment\\\", \\\"option_d\\\": \\\"the availability of abundant land and natural resources, such as timber and furs\\\", \\\"question\\\": \\\"Which of the following factors contributed most significantly to the different patterns of colonization in North America, compared to South and Central America?\\\"}, {\\\"answer\\\": \\\"A\\\", \\\"option_a\\\": \\\"to escape religious persecution in England\\\", \\\"option_b\\\": \\\"to establish trade with Native American tribes\\\", \\\"option_c\\\": \\\"to search for gold and silver\\\", \\\"option_d\\\": \\\"to convert Native Americans to Christianity\\\", \\\"question\\\": \\\"What was the primary motivation for the Pilgrims to settle in Plymouth in 1620?\\\"}, {\\\"answer\\\": \\\"C\\\", \\\"option_a\\\": \\\"a decline in the importance of agriculture\\\", \\\"option_b\\\": \\\"a decrease in immigration to the United States\\\", \\\"option_c\\\": \\\"a rise in the consumption of manufactured goods\\\", \\\"option_d\\\": \\\"a decrease in the gap between rich and poor\\\", \\\"question\\\": \\\"One significant effect of the Industrial Revolution in the United States during the first half of the nineteenth century was\\\"}, {\\\"answer\\\": \\\"A\\\", \\\"option_a\\\": \\\"They opposed it because it would lower the value of their enslaved people.\\\", \\\"option_b\\\": \\\"They supported it because they believed it would help to end slavery gradually.\\\", \\\"option_c\\\": \\\"They were indifferent to it because they did not rely on enslaved labor.\\\", \\\"option_d\\\": \\\"They embraced it because it brought new wealth to the South.\\\", \\\"question\\\": \\\"How did most slaveholders in the Upper South react to the proposal to reopen the international slave trade in the 1850s?\\\"}, {\\\"answer\\\": \\\"C\\\", \\\"option_a\\\": \\\"It was a religious utopian society that practiced celibacy.\\\", \\\"option_b\\\": \\\"It was a secular utopian society that emphasized social equality.\\\", \\\"option_c\\\": \\\"It was a religious utopian society that emphasized patriarchal leadership.\\\", \\\"option_d\\\": \\\"It was a Native American society that resisted assimilation.\\\", \\\"question\\\": \\\"Which of the following statements best describes the Mormon community founded by Joseph Smith?\\\"}, {\\\"answer\\\": \\\"D\\\", \\\"option_a\\\": \\\"the passage of the Chinese Exclusion Act\\\", \\\"option_b\\\": \\\"the growth of the steel industry\\\", \\\"option_c\\\": \\\"the expansion of the railroad\\\", \\\"option_d\\\": \\\"the invention of the electric light bulb\\\", \\\"question\\\": \\\"Which of the following factors contributed most significantly to the rapid growth of American cities in the late nineteenth century?\\\"}, {\\\"answer\\\": \\\"A\\\", \\\"option_a\\\": \\\"It was a political philosophy that called for appealing to southern White people by resisting calls for greater advancements in civil rights.\\\", \\\"option_b\\\": \\\"It was an ideology that called upon African Americans to physically separate themselves from White people in order to create and preserve their self-determination.\\\", \\\"option_c\\\": \\\"It was the practice of showing respect for individuals who had distinguished themselves through accomplishments or birth.\\\", \\\"option_d\\\": \\\"It was a period in American history during which materialism, a quest for personal gain, and corruption dominated both politics and society.\\\", \\\"question\\\": \\\"What was the \\\\\\\"Southern Strategy?\\\\\\\" \\\"}, {\\\"answer\\\": \\\"B\\\", \\\"option_a\\\": \\\"to defeat the Taliban and capture Saddam Hussein\\\", \\\"option_b\\\": \\\"to prevent future terrorist attacks against the United States\\\", \\\"option_c\\\": \\\"to establish an American empire in the Middle East\\\", \\\"option_d\\\": \\\"to promote democracy and free markets in the Middle East\\\", \\\"question\\\": \\\"What was the primary goal of the U.S. War on Terror?\\\"}, {\\\"answer\\\": \\\"C\\\", \\\"option_a\\\": \\\"The belief that cutting taxes for the rich will eventually result in economic benefits for the poor.\\\", \\\"option_b\\\": \\\"An ideology that called upon African Americans to physically separate themselves from White people in order to create and preserve their self-determination.\\\", \\\"option_c\\\": \\\"The belief that the United States had a calling and a duty to seize and settle the American West with Protestant, democratic values.\\\", \\\"option_d\\\": \\\"The practice of capturing sailors and forcing them into military service.\\\", \\\"question\\\": \\\"What is Manifest Destiny?\\\"}, {\\\"answer\\\": \\\"D\\\", \\\"option_a\\\": \\\"California\\\", \\\"option_b\\\": \\\"Colorado\\\", \\\"option_c\\\": \\\"Nevada\\\", \\\"option_d\\\": \\\"South Dakota\\\", \\\"question\\\": \\\"The Wounded Knee Massacre of 1890, which marked the end of sustained armed Native American resistance to White settlement of the West, took place in what present-day state?\\\"}, {\\\"answer\\\": \\\"B\\\", \\\"option_a\\\": \\\"John D. Rockefeller\\\", \\\"option_b\\\": \\\"Cornelius Vanderbilt\\\", \\\"option_c\\\": \\\"Jay Gould\\\", \\\"option_d\\\": \\\"Andrew Carnegie\\\", \\\"question\\\": \\\"Which of the following industrialists is most closely associated with the expansion of the American railroad system in the late 19th century?\\\"}, {\\\"answer\\\": \\\"A\\\", \\\"option_a\\\": \\\"It helped to boost agricultural production in the South.\\\", \\\"option_b\\\": \\\"It led to a decrease in the demand for enslaved labor.\\\", \\\"option_c\\\": \\\"It made the South less dependent on the North for manufactured goods.\\\", \\\"option_d\\\": \\\"It resulted in the abolition of slavery in the South.\\\", \\\"question\\\": \\\"What was the impact of the invention of the cotton gin on the Southern economy?\\\"}, {\\\"answer\\\": \\\"C\\\", \\\"option_a\\\": \\\"the Chinese Exclusion Act\\\", \\\"option_b\\\": \\\"the Homestead Act\\\", \\\"option_c\\\": \\\"the Dawes Severalty Act\\\", \\\"option_d\\\": \\\"the Indian Removal Act\\\", \\\"question\\\": \\\"Which piece of legislation was used to try and Americanize Native Americans in the 19th century by encouraging them to abandon their traditional ways and embrace white culture and Christianity?\\\"}, {\\\"answer\\\": \\\"A\\\", \\\"option_a\\\": \\\"to create jobs and stimulate the economy\\\", \\\"option_b\\\": \\\"to nationalize key industries\\\", \\\"option_c\\\": \\\"to reduce the federal deficit\\\", \\\"option_d\\\": \\\"to provide direct relief to the unemployed\\\", \\\"question\\\": \\\"What was the primary goal of the Works Progress Administration (WPA)?\\\"}, {\\\"answer\\\": \\\"D\\\", \\\"option_a\\\": \\\"He believed that it would make it easier for him to be re-elected.\\\", \\\"option_b\\\": \\\"He believed that it was the best way to end the war quickly.\\\", \\\"option_c\\\": \\\"He wanted to retaliate for the Japanese attack on Pearl Harbor.\\\", \\\"option_d\\\": \\\"He believed that it would help to prevent a costly invasion of Japan.\\\", \\\"question\\\": \\\"Why did President Truman decide to drop the atomic bomb on Japan?\\\"}, {\\\"answer\\\": \\\"C\\\", \\\"option_a\\\": \\\"the growth of suburbs\\\", \\\"option_b\\\": \\\"the rise of consumerism\\\", \\\"option_c\\\": \\\"the emergence of the counterculture\\\", \\\"option_d\\\": \\\"the election of Richard Nixon\\\", \\\"question\\\": \\\"Which of the following developments of the 1960s challenged the conformity and consumerism of the 1950s?\\\"}, {\\\"answer\\\": \\\"B\\\", \\\"option_a\\\": \\\"They were largely supportive of the war, believing it to be necessary to contain the spread of Communism.\\\", \\\"option_b\\\": \\\"They were divided in their opinions, with some supporting the war effort and others opposing it.\\\", \\\"option_c\\\": \\\"They overwhelmingly opposed the war, believing that it was not America's fight.\\\", \\\"option_d\\\": \\\"They were largely indifferent to the war, as it seemed like a distant conflict.\\\", \\\"question\\\": \\\"How did Americans react to the Vietnam War?\\\"}, {\\\"answer\\\": \\\"A\\\", \\\"option_a\\\": \\\"supply-side economics\\\", \\\"option_b\\\": \\\"Keynesian economics\\\", \\\"option_c\\\": \\\"monetarism\\\", \\\"option_d\\\": \\\"demand-side economics\\\", \\\"question\\\": \\\"The economic policies of President Ronald Reagan, which emphasized tax cuts for the wealthy and deregulation of industry, are most closely associated with which economic theory?\\\"}, {\\\"answer\\\": \\\"D\\\", \\\"option_a\\\": \\\"The growth of the Internet and the World Wide Web\\\", \\\"option_b\\\": \\\"The rise of China as a global economic power\\\", \\\"option_c\\\": \\\"The terrorist attacks of September 11, 2001\\\", \\\"option_d\\\": \\\"The collapse of the Soviet Union\\\", \\\"question\\\": \\\"Which of the following events marked the end of the Cold War?\\\"}]\\n\"\n                    }\n                ],\n                \"role\": \"model\"\n            },\n            \"finishReason\": \"STOP\",\n            \"index\": 0,\n            \"safetyRatings\": [\n                {\n                    \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\",\n                    \"probability\": \"NEGLIGIBLE\"\n                },\n                {\n                    \"category\": \"HARM_CATEGORY_HATE_SPEECH\",\n                    \"probability\": \"NEGLIGIBLE\"\n                },\n                {\n                    \"category\": \"HARM_CATEGORY_HARASSMENT\",\n                    \"probability\": \"NEGLIGIBLE\"\n                },\n                {\n                    \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\",\n                    \"probability\": \"NEGLIGIBLE\"\n                }\n            ],\n            \"citationMetadata\": {\n                \"citationSources\": [\n                    {\n                        \"startIndex\": 3921,\n                        \"endIndex\": 4050,\n                        \"uri\": \"https://quizizz.com/admin/quiz/5c7c86f1c4af89001acb649d/midterm-1302-history\",\n                        \"license\": \"\"\n                    }\n                ]\n            }\n        }\n    ],\n    \"usageMetadata\": {\n        \"promptTokenCount\": 920403,\n        \"candidatesTokenCount\": 2014,\n        \"totalTokenCount\": 922417\n    }\n}"
+						}
+					]
+				}
+			],
+			"id": "c1981bec-837e-4145-b978-acdafc8121f9"
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": {
+			"value": "{{vault:geminiApiKey}}",
+			"in": "query",
+			"key": "key"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "3fda6266-93ca-4df6-9467-72efc31481eb",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c28c180a-1d91-4d43-82b8-d262537be1a6",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "company",
+			"value": "Google Cloud"
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://generativelanguage.googleapis.com"
+		},
+		{
+			"key": "model",
+			"value": "gemini-1.5-flash-8b-exp-0827"
+		},
+		{
+			"key": "version",
+			"value": "v1beta"
+		},
+		{
+			"key": "style",
+			"value": ""
+		},
+		{
+			"key": "lyrics",
+			"value": ""
+		},
+		{
+			"key": "body",
+			"value": ""
+		},
+		{
+			"key": "clipID1",
+			"value": ""
+		},
+		{
+			"key": "clipID2",
+			"value": ""
+		},
+		{
+			"key": "AIMLBaseURL",
+			"value": "https://api.aimlapi.com/v2"
+		},
+		{
+			"key": "UPLOAD_URL",
+			"value": ""
+		},
+		{
+			"key": "FILE_URI",
+			"value": ""
+		},
+		{
+			"key": "variable_key",
+			"value": ""
+		}
+	]
+}
