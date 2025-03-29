@@ -394,7 +394,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"contents\": [\n        {\n            \"parts\": [\n                {\n                    \"text\": \"You are a Journalist. You are presenting a news at the new york times square on camera based on information you've gotten from the newspaper shared with you. Write a script for your newscasting.\"\n                },\n                {\n                    \"file_data\": {\n                        \"mime_type\": \"image/jpeg\",\n                        \"file_uri\": \"{{FILE_URI}}\"\n                    }\n                }\n            ]\n        }\n    ]\n}",
+							"raw": "{\n    \"contents\": [\n        {\n            \"parts\": [\n                {\n                    \"text\": \"You are Best Journalist. You are presenting a news at the new york times square on camera based on information you've gotten from the newspaper shared with you. Write a script for your newscasting.\"\n                },\n                {\n                    \"file_data\": {\n                        \"mime_type\": \"image/jpeg\",\n                        \"file_uri\": \"{{FILE_URI}}\"\n                    }\n                }\n            ]\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
